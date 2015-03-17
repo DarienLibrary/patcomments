@@ -524,7 +524,7 @@ function patcomments_admin_form_submit($form, &$form_state)
 
     // Get "Closed-Emailed" status code
     db_set_active('patcomments');
-    $row = db_fetch_object(db_query("SELECT stat_id FROM status WHERE status = 'Closed-emailed'"));
+    $row = db_fetch_object(db_query("SELECT stat_id FROM {status} WHERE status = 'Closed-emailed'"));
     db_set_active('default');
     $status_code = $row->stat_id;
 
@@ -625,7 +625,7 @@ function patcomments_email_status($com_id, $to_whom = 'staff', $email_from = '')
 
   // Get Feedback Type
   db_set_active('patcomments');
-  $row = db_fetch_object(db_query("SELECT * FROM type WHERE ty_id = %d", $comment_data['type']));
+  $row = db_fetch_object(db_query("SELECT * FROM {type} WHERE ty_id = %d", $comment_data['type']));
   $email_subject = variable_get('patcomments_institution_name', NULL) . " Patron Comment Update: " . $row->type . " ($com_id)";
   db_set_active('default');
 
@@ -662,7 +662,7 @@ function patcomments_email_status($com_id, $to_whom = 'staff', $email_from = '')
       $email_to = $to_whom;
     else {
       db_set_active('patcomments');
-      $row = db_fetch_object(db_query("SELECT * FROM refer_comment WHERE ref_id=%d", $comment_data['refer_to']));
+      $row = db_fetch_object(db_query("SELECT * FROM {refer_comment} WHERE ref_id=%d", $comment_data['refer_to']));
       $email_to = $row->refer_value;
       db_set_active('default');
     }
@@ -793,7 +793,7 @@ function patcomments_form($form_state, $pathCode = NULL) {
 
   // Get "suggest an item" type
   db_set_active('patcomments');
-  $row = db_fetch_object(db_query("SELECT ty_id FROM type WHERE type = 'suggest a title'"));
+  $row = db_fetch_object(db_query("SELECT ty_id FROM {type} WHERE type = 'suggest a title'"));
   db_set_active('default');
   $suggest_item_type = $row->ty_id;
 
@@ -817,7 +817,7 @@ function patcomments_form($form_state, $pathCode = NULL) {
 
   if (!empty($pathCode)) {
     db_set_active('patcomments');
-    $row = db_fetch_object(db_query("SELECT * FROM type WHERE pathcode = '%s' LIMIT 1", $pathCode));
+    $row = db_fetch_object(db_query("SELECT * FROM {type} WHERE pathcode = '%s' LIMIT 1", $pathCode));
     db_set_active('default');
     $ty_options = array($row->ty_id => $row->type);
 
@@ -833,7 +833,7 @@ function patcomments_form($form_state, $pathCode = NULL) {
 
     if ($row->ty_id == $suggest_item_type) {
       db_set_active('patcomments');
-      $result = db_query("SELECT * FROM suggest_categories ORDER by suggest_categories.description ASC");
+      $result = db_query("SELECT * FROM {suggest_categories} ORDER by suggest_categories.description ASC");
       db_set_active('default');
 
       $sug_options = array("" => "- CHOOSE CATEGORY -");
@@ -858,7 +858,7 @@ function patcomments_form($form_state, $pathCode = NULL) {
   }
   else {
     db_set_active('patcomments');
-    $result = db_query("SELECT * FROM type WHERE pub_display = 1 ORDER BY type ASC");
+    $result = db_query("SELECT * FROM {type} WHERE pub_display = 1 ORDER BY type ASC");
     db_set_active('default');
 
     $ty_options = array("" => "- CHOOSE TYPE -");
@@ -883,7 +883,7 @@ function patcomments_form($form_state, $pathCode = NULL) {
     $contact_form .= '<br />';
 
     db_set_active('patcomments');
-    $result = db_query("SELECT * FROM suggest_categories ORDER by suggest_categories.description ASC");
+    $result = db_query("SELECT * FROM {suggest_categories} ORDER by suggest_categories.description ASC");
     db_set_active('default');
 
     $sug_options = array("" => "- CHOOSE CATEGORY -");
@@ -985,36 +985,36 @@ function patcomments_form_submit($form, &$form_state) {
 
   // Setup standard fields
   db_set_active('patcomments');
-  $row = db_fetch_object(db_query("SELECT sou_id FROM source WHERE source = 'website'"));
+  $row = db_fetch_object(db_query("SELECT sou_id FROM {source} WHERE source = 'website'"));
   db_set_active('default');
 
   $input_source = $row->sou_id; // WEBSITE
 
   db_set_active('patcomments');
-  $row = db_fetch_object(db_query("SELECT loc_id FROM location WHERE loc_name = 'online'"));
+  $row = db_fetch_object(db_query("SELECT loc_id FROM {location} WHERE loc_name = 'online'"));
   db_set_active('default');
   $input_location = $row->loc_id; // ONLINE
 
   // Determine status (AutoClose?)
   db_set_active('patcomments');
-  $row = db_fetch_object(db_query("SELECT autoclose FROM type WHERE ty_id = $input_type"));
+  $row = db_fetch_object(db_query("SELECT autoclose FROM {type} WHERE ty_id = $input_type"));
   db_set_active('default');
   $autoClose = $row->autoclose;
 
   // Get "suggest an item" type
   db_set_active('patcomments');
-  $row = db_fetch_object(db_query("SELECT ty_id FROM type WHERE type = 'suggest a title'"));
+  $row = db_fetch_object(db_query("SELECT ty_id FROM {type} WHERE type = 'suggest a title'"));
   db_set_active('default');
   $suggest_item_type = $row->ty_id;
 
   if ($autoClose) {
     db_set_active('patcomments');
-    $row = db_fetch_object(db_query("SELECT stat_id FROM status WHERE status = 'AutoClose'"));
+    $row = db_fetch_object(db_query("SELECT stat_id FROM {status} WHERE status = 'AutoClose'"));
     db_set_active('default');
   }
   else {
     db_set_active('patcomments');
-    $row = db_fetch_object(db_query("SELECT stat_id FROM status WHERE status = 'New'"));
+    $row = db_fetch_object(db_query("SELECT stat_id FROM {status} WHERE status = 'New'"));
     db_set_active('default');
   }
 
@@ -1029,7 +1029,7 @@ function patcomments_form_submit($form, &$form_state) {
 
   // Get initial referral information
   db_set_active('patcomments');
-  $row = db_fetch_object(db_query("SELECT * FROM type, refer_comment WHERE type.init_refer = refer_comment.ref_id AND type.ty_id = %d", $input_type));
+  $row = db_fetch_object(db_query("SELECT * FROM {type}, {refer_comment} WHERE type.init_refer = refer_comment.ref_id AND type.ty_id = %d", $input_type));
   db_set_active('default');
 
   $input_staff = $row->refer_to;
@@ -1040,14 +1040,14 @@ function patcomments_form_submit($form, &$form_state) {
     if ($form_state['values']['sug_id'] == "") {
       // Get "suggest other" category
       db_set_active('patcomments');
-      $row = db_fetch_object(db_query("SELECT id FROM suggest_categories WHERE description = 'Other'"));
+      $row = db_fetch_object(db_query("SELECT id FROM {suggest_categories} WHERE description = 'Other'"));
       db_set_active('default');
       $form_state['values']['sug_id'] = $row->id;
     }
 
     // send directly to materials assignee
     db_set_active('patcomments');
-    $row = db_fetch_object(db_query("SELECT * FROM suggest_categories WHERE id = %d", $form_state['values']['sug_id']));
+    $row = db_fetch_object(db_query("SELECT * FROM {suggest_categories} WHERE id = %d", $form_state['values']['sug_id']));
     db_set_active('default');
 
     // Send to selector
