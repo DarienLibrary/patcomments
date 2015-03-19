@@ -529,7 +529,7 @@ function patcomments_admin_form_submit($form, &$form_state)
     $status_code = $row->stat_id;
 
     db_set_active('patcomments');
-    db_query("UPDATE comment SET date_resolved = '%s', status = %d WHERE com_id = %d", $todays_date, $status_code, $com_id);
+    db_query("UPDATE {comment} SET date_resolved = '%s', status = %d WHERE com_id = %d", $todays_date, $status_code, $com_id);
     db_set_active('default');
 
     $email_from = (trim($form_state['values']['email_from']) ? trim($form_state['values']['email_from']) : variable_get('patcomments_suggest_email', NULL));
@@ -833,7 +833,7 @@ function patcomments_form($form_state, $pathCode = NULL) {
 
     if ($row->ty_id == $suggest_item_type) {
       db_set_active('patcomments');
-      $result = db_query("SELECT * FROM {suggest_categories} ORDER by suggest_categories.description ASC");
+      $result = db_query("SELECT * FROM {suggest_categories} ORDER by {suggest_categories}.description ASC");
       db_set_active('default');
 
       $sug_options = array("" => "- CHOOSE CATEGORY -");
@@ -883,7 +883,7 @@ function patcomments_form($form_state, $pathCode = NULL) {
     $contact_form .= '<br />';
 
     db_set_active('patcomments');
-    $result = db_query("SELECT * FROM {suggest_categories} ORDER by suggest_categories.description ASC");
+    $result = db_query("SELECT * FROM {suggest_categories} ORDER by {suggest_categories}.description ASC");
     db_set_active('default');
 
     $sug_options = array("" => "- CHOOSE CATEGORY -");
@@ -1029,7 +1029,7 @@ function patcomments_form_submit($form, &$form_state) {
 
   // Get initial referral information
   db_set_active('patcomments');
-  $row = db_fetch_object(db_query("SELECT * FROM {type}, {refer_comment} WHERE type.init_refer = refer_comment.ref_id AND type.ty_id = %d", $input_type));
+  $row = db_fetch_object(db_query("SELECT * FROM {type}, {refer_comment} WHERE {type}.init_refer = {refer_comment}.ref_id AND {type}.ty_id = %d", $input_type));
   db_set_active('default');
 
   $input_staff = $row->refer_to;
@@ -1086,7 +1086,7 @@ function patcomments_form_submit($form, &$form_state) {
 
   // Insert Data into Database
   db_set_active('patcomments');
-  $result = db_query("INSERT INTO comment SET type=%d, source=%d, location=%d, staff='%s', comments='%s', name='%s', " .
+  $result = db_query("INSERT INTO {comment} SET type=%d, source=%d, location=%d, staff='%s', comments='%s', name='%s', " .
                      "email='%s', date_received='%s', status=%d, web_info='%s', refer_to=%d",
                      $input_type, $input_source, $input_location, $input_staff, $input_comments, $input_name,
                      $input_email, $input_date, $input_status, $input_web_info, $input_refer);
