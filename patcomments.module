@@ -636,11 +636,11 @@ function patcomments_email_status($com_id, $to_whom = 'staff', $email_from = '')
                       url("admin/contactus/edit/$com_id", array('absolute' => TRUE)) .
                       "\n\n" . str_pad("", 40, "-") . "\n\n";
 
-    $lookup_fields = array("type:type:ty_id" => "type",
-                           "source:source:sou_id" => "source",
-                           "loc_name:location:loc_id" => "location",
-                           "status:status:stat_id" => "status",
-                           "refer_to:refer_comment:ref_id" => "refer_to");
+    $lookup_fields = array("type:{type}:ty_id" => "type",
+                           "source:{source}:sou_id" => "source",
+                           "loc_name:{location}:loc_id" => "location",
+                           "status:{status}:stat_id" => "status",
+                           "refer_to:{refer_comment}:ref_id" => "refer_to");
 
     foreach($comment_data as $field => $field_data) {
       $lookup_code = array_search($field, $lookup_fields);
