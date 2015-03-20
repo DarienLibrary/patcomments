@@ -785,7 +785,7 @@ function patcomments_form($form_state, $pathCode = NULL) {
 
   // Get "suggest an item" type
   db_set_active('patcomments');
-  $row = db_fetch_object(db_query("SELECT ty_id FROM {type} WHERE type = 'suggest a title'"));
+  $row = db_fetch_object(db_query("SELECT ty_id FROM {type} WHERE type = 'Suggest A Title'"));
   db_set_active('default');
   $suggest_item_type = $row->ty_id;
 
@@ -855,7 +855,7 @@ function patcomments_form($form_state, $pathCode = NULL) {
 
     $ty_options = array("" => "- CHOOSE TYPE -");
     while ($row = db_fetch_object($result)) {
-      if ($row->type != "other")  { // put other at the end
+      if ($row->type != "Other")  { // put other at the end
         $ty_options[$row->ty_id] = $row->type;
       }
       else {
