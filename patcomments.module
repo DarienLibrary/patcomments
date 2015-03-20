@@ -776,16 +776,8 @@ function patcomments_form($form_state, $pathCode = NULL) {
   drupal_add_js(drupal_get_path('module', 'patcomments') . '/patcomments.js');
 
   if (($pathCode != "aareads") && ($pathCode != "aafounders")) {
-    $content .='<p>By using the form below, your suggestion, question or feedback will automatically be directed to the appropriate department.</p>';
-    $content .='<p>Or if you prefer, please feel free to call us using one of the following numbers:</p>';
-    $content .='<p><strong>All library facilities can be reached by phone through the main switchboard: (734) 327-4200</strong></p>';
-    $content .='<p><strong>Our mailing address is: 343 South Fifth Avenue, Ann Arbor, MI 48104</strong></p>';
-    $content .='<p>Material requests and renewals: (734) 327-4219<br>
-                Reference desk: (734) 327-4525<br>
-                Washtenaw Library for the Blind and Physically Disabled: (734) 327-4224<br>
-                Human Resources: (734) 327-8304<br>
-                Community Relations (programs and events): (734) 327-4265<br>
-                Administration, Josie Parker, Library Director: (734) 327-4263</p>';
+    $content .='<p>If you have a question, suggestion, compliment, or concern, we would love to hear it! Please fill out the form below and your comment will be passed on to the person who can best answer it. You can also check out our <a href="/contact">contact page</a> for a more immediate response.</p>';
+    $content .='<p>If you request a response, you will hear from us in no less than 3 business days.</p>';
     $form['introduction_message'] = array(
       '#value' => $content,
     );
