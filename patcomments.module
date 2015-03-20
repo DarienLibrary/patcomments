@@ -636,18 +636,18 @@ function patcomments_email_status($com_id, $to_whom = 'staff', $email_from = '')
                       url("admin/contactus/edit/$com_id", array('absolute' => TRUE)) .
                       "\n\n" . str_pad("", 40, "-") . "\n\n";
 
-    $lookup_fields = array("type:{type}:ty_id" => "type",
-                           "source:{source}:sou_id" => "source",
-                           "loc_name:{location}:loc_id" => "location",
-                           "status:{status}:stat_id" => "status",
-                           "refer_to:{refer_comment}:ref_id" => "refer_to");
+    $lookup_fields = array("type:type:ty_id" => "type",
+                           "source:source:sou_id" => "source",
+                           "loc_name:location:loc_id" => "location",
+                           "status:status:stat_id" => "status",
+                           "refer_to:refer_comment:ref_id" => "refer_to");
 
     foreach($comment_data as $field => $field_data) {
       $lookup_code = array_search($field, $lookup_fields);
       if ($lookup_code) {
         $sql_fields = explode(":", $lookup_code);
         db_set_active('patcomments');
-        $row = db_fetch_array(db_query("SELECT %s FROM %s WHERE %s = %d", $sql_fields[0], $sql_fields[1], $sql_fields[2], $field_data));
+        $row = db_fetch_array(db_query("SELECT %s FROM {%s} WHERE %s = %d", $sql_fields[0], $sql_fields[1], $sql_fields[2], $field_data));
         db_set_active('default');
         $col_name = (string)$sql_fields[0];
         $field_data = $row[$col_name];
