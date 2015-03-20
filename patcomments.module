@@ -23,7 +23,7 @@ function patcomments_perm() {
 function patcomments_menu() {
   $items = array();
 
-  $items['admin/settings/contactus'] = array(
+  $items['admin/settings/feedback'] = array(
     'title' => t('Contact Us Settings'),
     'description' => 'Settings for Contact US',
     'page callback' => 'drupal_get_form',
@@ -31,44 +31,44 @@ function patcomments_menu() {
     'access arguments' => array('administer site configuration'),
     'type' => MENU_NORMAL_ITEM,
   );
-  $items['admin/contactus'] = array(
+  $items['admin/feedback'] = array(
     'title' => 'Contact Us',
     'description' => 'View, plublish, and respond to Patron Comments.',
     'page callback' => 'patcomments_admin',
     'access arguments' => array('administer patcomments'),
     'type' => MENU_NORMAL_ITEM,
   );
-  $items['admin/contactus/edit'] = array(
+  $items['admin/feedback/edit'] = array(
     'title' => 'Edit Contact Us comments',
     'page callback' => 'patcomments_admin_edit',
     'access arguments' => array('administer patcomments'),
     'type' => MENU_NORMAL_ITEM,
   );
-  $items['admin/contactus/delete'] = array(
+  $items['admin/feedback/delete'] = array(
     'title' => 'Delete Contact Us comment',
     'page callback' => 'patcomments_admin_delete',
     'access arguments' => array('administer patcomments'),
     'type' => MENU_NORMAL_ITEM,
   );
-  $items['admin/contactus/list'] = array(
+  $items['admin/feedback/list'] = array(
     'title' => 'Comment list',
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'weight' => -10,
   );
-  $items['admin/contactus/add'] = array(
+  $items['admin/feedback/add'] = array(
     'title' => 'Add new comment',
     'page callback' => 'patcomments_admin_edit',
     'access arguments' => array('administer patcomments'),
     'type' => MENU_LOCAL_TASK,
   );
-  $items['contactus'] = array(
+  $items['feedback'] = array(
     'title' => 'Contact Us Form',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('patcomments_form'),
     'access arguments' => array('access patcomments'),
     'type' => MENU_CALLBACK,
   );
-  $items['contactus/comments'] = array(
+  $items['feedback/comments'] = array(
     'title' => 'Patron comments',
     'page callback' => 'patcomments_display',
     'access arguments' => array('access patcomments'),
@@ -212,7 +212,7 @@ function patcomments_admin() {
 
   $destination = drupal_get_destination();
   while ($data = db_fetch_object($result)) {
-    $rows[] = array(l($data->com_id, "admin/contactus/edit/$data->com_id"), $data->date_received, $comment_types[$data->type], $comment_status[$data->status], $comment_refer[$data->refer_to], $comment_source[$data->source], $comment_publish[$data->publish], l(t('edit'), "admin/contactus/edit/$data->com_id"), l(t('delete'), "admin/contactus/delete/$data->com_id", array(), $destination));
+    $rows[] = array(l($data->com_id, "admin/feedback/edit/$data->com_id"), $data->date_received, $comment_types[$data->type], $comment_status[$data->status], $comment_refer[$data->refer_to], $comment_source[$data->source], $comment_publish[$data->publish], l(t('edit'), "admin/feedback/edit/$data->com_id"), l(t('delete'), "admin/feedback/delete/$data->com_id", array(), $destination));
   }
 
   if ($pager = theme('pager', NULL, 50, 0)) {
@@ -296,7 +296,7 @@ function patcomments_admin_delete($com_id = 0, $confirm = "NO") {
       db_set_active('default');
       cache_clear_all();
       drupal_set_message(t('The Patron Comment has been deleted.'));
-      drupal_goto('admin/contactus');
+      drupal_goto('admin/feedback');
     } else {
       $content .= "Are you sure you want to delete patron comment #$com_id?";
       $content .= "<h2>[&nbsp;" . l("DELETE", $_GET['q'] . "/CONFIRMED") . "&nbsp;]</h2>";
@@ -536,7 +536,7 @@ function patcomments_admin_form_submit($form, &$form_state)
     patcomments_email_status($com_id, 'patron', $email_from);
 
     drupal_set_message(t('Patron Email Sent. Status set to Closed. Ready for redaction before publish'));
-    drupal_goto('admin/contactus/edit/' . $com_id);
+    drupal_goto('admin/feedback/edit/' . $com_id);
   }
   else if ($_POST['op'] == t('Update Comment')) {
     $output = patcomments_admin_update($form_state['values']);
@@ -578,7 +578,7 @@ function patcomments_admin_update($edit, $return_to_overview = TRUE) {
   cache_clear_all();
   drupal_set_message(t('The Patron Comment has been updated.'));
   if ($return_to_overview) {
-    drupal_goto('admin/contactus');
+    drupal_goto('admin/feedback');
   }
 }
 
@@ -609,7 +609,7 @@ function patcomments_admin_insert($edit, $return_to_overview = TRUE) {
   cache_clear_all();
   drupal_set_message(t('The Patron Comment #' . $edit['com_id'] . ' has been added.'));
   if ($return_to_overview) {
-    drupal_goto('admin/contactus');
+    drupal_goto('admin/feedback');
   }
 }
 
@@ -633,7 +633,7 @@ function patcomments_email_status($com_id, $to_whom = 'staff', $email_from = '')
 
   if ($to_whom == 'staff' || strpos($to_whom, "@")) {
     $email_message .= "\nOpen the following link to administer:\n" .
-                      url("admin/contactus/edit/$com_id", array('absolute' => TRUE)) .
+                      url("admin/feedback/edit/$com_id", array('absolute' => TRUE)) .
                       "\n\n" . str_pad("", 40, "-") . "\n\n";
 
     $lookup_fields = array("type:type:ty_id" => "type",
@@ -693,7 +693,7 @@ function patcomments_display($regarding = 0, $type = 0, $num_per_page = 10) {
   $content .= "<p>Here you can search through numerous patron comments and the corresponding " . variable_get('patcomments_institution_name', NULL) . " replies. ";
   $content .= "Search by the type of comment, in general by what the comment is regarding, or by a particular issue.</p>";
   $content .= "<p>We care about what you have to say, and do our best to address each and every concern.</p>";
-  $content .= "<p>Please let us know how we're doing by " . l("submitting a comment or suggestion", "contactus") . "</p>";
+  $content .= "<p>Please let us know how we're doing by " . l("submitting a comment or suggestion", "feedback") . "</p>";
 
   $content .='<h3>Search Patron Comments</h3>';
 
@@ -761,7 +761,7 @@ function patcomments_search_form($form_state, $regarding_id = 0, $type_id = 0, $
 }
 
 function patcomments_search_form_submit($form, &$form_state) {
-  drupal_goto("contactus/comments/" .
+  drupal_goto("feedback/comments/" .
               $form_state['values']['filter_regarding'] . "/" .
               $form_state['values']['filter_type'] . "/" .
               $form_state['values']['num_per_page'] . "/"
@@ -769,7 +769,7 @@ function patcomments_search_form_submit($form, &$form_state) {
 }
 
 /*========================
-  The contactus Form
+  The feedback Form
 ========================*/
 function patcomments_form($form_state, $pathCode = NULL) {
   global $user, $base_url;
