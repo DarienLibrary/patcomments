@@ -777,7 +777,7 @@ function patcomments_form($form_state, $pathCode = NULL) {
 
   if (($pathCode != "aareads") && ($pathCode != "aafounders")) {
     $content .='<p>If you have a question, suggestion, compliment, or concern, we would love to hear it! Please fill out the form below and your comment will be passed on to the person who can best answer it. You can also check out our <a href="/contact">contact page</a> for a more immediate response.</p>';
-    $content .='<p>If you request a response, you will hear from us in no less than 3 business days.</p>';
+    $content .='<p>If you request a response, you will hear from us within at most 3 business days.</p>';
     $form['introduction_message'] = array(
       '#value' => $content,
     );
