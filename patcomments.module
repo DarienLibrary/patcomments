@@ -947,7 +947,7 @@ function theme_patcomments_form($form) {
   $output .= '<br />';
   $output .= form_render($form['ty_id']);
   $output .= '<br />';
-  $output .= form_render($form['sug_id']);
+# $output .= form_render($form['sug_id']);
   $output .= '<br />';
   $output .= form_render($form);
 
