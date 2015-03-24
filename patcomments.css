@@ -1,11 +1,12 @@
 div#filter_form {
-  border: 1px solid black;
-  margin: 5px;
+  margin: 0 0 17px 0
   padding: 5px;
-  background: #D8D6B2;
+  background: #9b9b9b;
+  color: #fff;
 }
 div#filter_form * {
   display: inline;
+  margin-right: 8px;
 }
 div#filter_form div.form-item br {
   display: none;
@@ -19,4 +20,5 @@ div#filter_form *#edit-patcomments-filter-form {
 div#filter_form .form-submit{
   background: #FFFFFF;
   vertical-align: middle;
+  padding: -2px 0 0 15px;
 }

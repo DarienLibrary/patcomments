@@ -688,8 +688,6 @@ function patcomments_email_status($com_id, $to_whom = 'staff', $email_from = '')
 
 function patcomments_display($regarding = 0, $type = 0, $num_per_page = 10) {
   drupal_add_css(drupal_get_path('module', 'patcomments') . '/patcomments.css', 'module', 'all', FALSE);
-
-  $content = "<h2 class=\"title\">What you have told us</h2>" .
   $content .= "<p>Here you can search through numerous patron comments and the corresponding " . variable_get('patcomments_institution_name', NULL) . " replies. ";
   $content .= "Search by the type of comment, in general by what the comment is regarding, or by a particular issue.</p>";
   $content .= "<p>We care about what you have to say, and do our best to address each and every concern.</p>";
