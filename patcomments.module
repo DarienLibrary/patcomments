@@ -821,6 +821,7 @@ function patcomments_form($form_state, $pathCode = NULL) {
     );
     $contact_form .= '<br />';
 
+/* REMOVING SUGGEST ITEM DROP DOWN
     if ($row->ty_id == $suggest_item_type) {
       db_set_active('patcomments');
       $result = db_query("SELECT * FROM {suggest_categories} ORDER by {suggest_categories}.description ASC");
@@ -845,6 +846,7 @@ function patcomments_form($form_state, $pathCode = NULL) {
       );
       $contact_form .= $suggest_select . '<br />';
     }
+*/
   }
   else {
     db_set_active('patcomments');
@@ -868,7 +870,7 @@ function patcomments_form($form_state, $pathCode = NULL) {
       '#default_value' => '',
       '#options' => $ty_options,
       '#description' => t('select a subject type for your comment'),
-      '#attributes' => array("onChange" => "checkForSuggest(this, $suggest_item_type)", "style" => "border: 1px solid")
+      '#attributes' => array("style" => "border: 1px solid")
     );
     $contact_form .= '<br />';
 
