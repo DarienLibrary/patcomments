@@ -821,7 +821,6 @@ function patcomments_form($form_state, $pathCode = NULL) {
     );
     $contact_form .= '<br />';
 
-/* REMOVING SUGGEST ITEM DROP DOWN
     if ($row->ty_id == $suggest_item_type) {
       db_set_active('patcomments');
       $result = db_query("SELECT * FROM {suggest_categories} ORDER by {suggest_categories}.description ASC");
@@ -846,7 +845,6 @@ function patcomments_form($form_state, $pathCode = NULL) {
       );
       $contact_form .= $suggest_select . '<br />';
     }
-*/
   }
   else {
     db_set_active('patcomments');
@@ -855,7 +853,7 @@ function patcomments_form($form_state, $pathCode = NULL) {
 
     $ty_options = array("" => "- CHOOSE TYPE -");
     while ($row = db_fetch_object($result)) {
-      if ($row->type != "Other")  { // put other at the end
+      if ($row->type != "Other" && $row->type != "Suggest A Title")  { // put other at the end
         $ty_options[$row->ty_id] = $row->type;
       }
       else {
@@ -870,7 +868,7 @@ function patcomments_form($form_state, $pathCode = NULL) {
       '#default_value' => '',
       '#options' => $ty_options,
       '#description' => t('select a subject type for your comment'),
-      '#attributes' => array("style" => "border: 1px solid")
+      '#attributes' => array("onChange" => "checkForSuggest(this, $suggest_item_type)", "style" => "border: 1px solid")
     );
     $contact_form .= '<br />';
 
@@ -891,8 +889,7 @@ function patcomments_form($form_state, $pathCode = NULL) {
 
     $suggest_style = ($_GET['ty_id'] == $suggest_item_type ? "" : " style=\"display: none\"");
 
-/*
-      $form['sug_id'] = array(
+    $form['sug_id'] = array(
       '#prefix' => "<div id=\"suggest_category_div\"$suggest_style>",
       '#type' => 'select',
       '#title' => t('Suggest Category'),
@@ -906,7 +903,6 @@ function patcomments_form($form_state, $pathCode = NULL) {
     $contact_form .= str_replace("class=\"form-item\"", "class=\"form-item\" id=\"suggest_category_div\"$suggest_style", $suggest_select);
     $contact_form .= '<br />';
   }
-*/
 
   // If path passed in, Include it on first line of message
   $default_comment = ($_GET['refpath'] ? "Referring URL: $base_url/" . $_GET['refpath'] . "\n-------- Please assist by describing the problem here: --------\n" : "");
@@ -949,8 +945,8 @@ function theme_patcomments_form($form) {
   $output .= '<br />';
   $output .= form_render($form['ty_id']);
   $output .= '<br />';
-# $output .= form_render($form['sug_id']);
-# $output .= '<br />';
+  $output .= form_render($form['sug_id']);
+  $output .= '<br />';
   $output .= form_render($form);
 
   return $output;
