@@ -869,7 +869,7 @@ function patcomments_form($form_state, $pathCode = NULL) {
       '#default_value' => '',
       '#options' => $ty_options,
       '#description' => t('select a subject type for your comment'),
-      '#attributes' => array("onChange" => "checkForSuggest(this, $suggest_item_type)", "style" => "border: 1px solid")
+      '#attributes' => array("style" => "border: 1px solid")
     );
     $contact_form .= '<br />';
 
