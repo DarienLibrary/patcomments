@@ -853,7 +853,8 @@ function patcomments_form($form_state, $pathCode = NULL) {
 
     $ty_options = array("" => "- CHOOSE TYPE -");
     while ($row = db_fetch_object($result)) {
-      if ($row->type != "Other" && $row->type != "Suggest A Title")  { // put other at the end
+      if ($row->type == "Suggest A Title") {}
+      elseif ($row->type != "Other")  { // put other at the end
         $ty_options[$row->ty_id] = $row->type;
       }
       else {
