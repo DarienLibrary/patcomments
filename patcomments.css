@@ -2,7 +2,6 @@ div#filter_form {
   margin: 0 0 17px 0
   padding: 5px;
   background: #9b9b9b;
-  color: #fff;
 }
 div#filter_form * {
   display: inline;
