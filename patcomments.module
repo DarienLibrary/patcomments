@@ -24,7 +24,7 @@ function patcomments_menu() {
   $items = array();
 
   $items['admin/settings/feedback'] = array(
-    'title' => t('Contact Us Settings'),
+    'title' => t('Feedback Settings'),
     'description' => 'Settings for Contact US',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('patcomments_settings'),
@@ -32,20 +32,20 @@ function patcomments_menu() {
     'type' => MENU_NORMAL_ITEM,
   );
   $items['admin/feedback'] = array(
-    'title' => 'Contact Us',
+    'title' => 'Feedback',
     'description' => 'View, plublish, and respond to Patron Comments.',
     'page callback' => 'patcomments_admin',
     'access arguments' => array('administer patcomments'),
     'type' => MENU_NORMAL_ITEM,
   );
   $items['admin/feedback/edit'] = array(
-    'title' => 'Edit Contact Us comments',
+    'title' => 'Edit Feedback comments',
     'page callback' => 'patcomments_admin_edit',
     'access arguments' => array('administer patcomments'),
     'type' => MENU_NORMAL_ITEM,
   );
   $items['admin/feedback/delete'] = array(
-    'title' => 'Delete Contact Us comment',
+    'title' => 'Delete Feedback comment',
     'page callback' => 'patcomments_admin_delete',
     'access arguments' => array('administer patcomments'),
     'type' => MENU_NORMAL_ITEM,
@@ -62,14 +62,14 @@ function patcomments_menu() {
     'type' => MENU_LOCAL_TASK,
   );
   $items['feedback'] = array(
-    'title' => 'Contact Us Form',
+    'title' => 'Submit Feedback',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('patcomments_form'),
     'access arguments' => array('access patcomments'),
     'type' => MENU_CALLBACK,
   );
   $items['feedback/comments'] = array(
-    'title' => 'Patron comments',
+    'title' => 'Patron Feedback',
     'page callback' => 'patcomments_display',
     'access arguments' => array('access patcomments'),
     'type' => MENU_CALLBACK,
@@ -689,11 +689,11 @@ function patcomments_email_status($com_id, $to_whom = 'staff', $email_from = '')
 function patcomments_display($regarding = 0, $type = 0, $num_per_page = 10) {
   drupal_add_css(drupal_get_path('module', 'patcomments') . '/patcomments.css', 'module', 'all', FALSE);
   $content .= "<p>Here you can search through numerous patron comments and the corresponding " . variable_get('patcomments_institution_name', NULL) . " replies. ";
-  $content .= "Search by the type of comment, in general by what the comment is regarding, or by a particular issue.</p>";
+  $content .= "Search by what the the comment is regarding, the type of comment, or by a particular issue.</p>";
   $content .= "<p>We care about what you have to say, and do our best to address each and every concern.</p>";
   $content .= "<p>Please let us know how we're doing by " . l("submitting a comment or suggestion", "feedback") . "</p>";
 
-  $content .='<h3>Search Patron Comments</h3>';
+  $content .='<h3>Search Patron Feedback</h3>';
 
   $content .= "<div id=\"filter_form\">" .
               drupal_get_form('patcomments_search_form', $regarding, $type, $num_per_page) .
