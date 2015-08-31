@@ -329,13 +329,15 @@ function patcomments_admin_form($form_state, $edit = '') {
     '#options' => $options,
     '#description' => t('select a subject type for your comment'),
   );
-  $form['source'] = array(
-    '#type' => 'select',
-    '#title' => t('Comment Source'),
-    '#default_value' => $edit['source'],
-    '#options' => _patcomments_get_sources(),
-    '#description' => t('select a source material ex. letter, card etc'),
-  );
+ /**
+ * $form['source'] = array(
+ *   '#type' => 'select',
+ *   '#title' => t('Comment Source'),
+ *   '#default_value' => $edit['source'],
+ *   '#options' => _patcomments_get_sources(),
+ *   '#description' => t('select a source material ex. letter, card etc'),
+ * );
+  **/
   $form['regarding'] = array(
     '#type' => 'select',
     '#title' => t('Comment Regarding'),
@@ -343,20 +345,22 @@ function patcomments_admin_form($form_state, $edit = '') {
     '#options' => _patcomments_get_regardings(),
     '#description' => t('select a comment regarding option'),
   );
-  $form['location'] = array(
-    '#type' => 'select',
-    '#title' => t('Location'),
-    '#default_value' => $edit['location'],
-    '#options' => _patcomments_get_locations(),
-    '#description' => t('select a location'),
-  );
+  /**
+*  $form['location'] = array(
+*    '#type' => 'select',
+*    '#title' => t('Location'),
+*    '#default_value' => $edit['location'],
+*    '#options' => _patcomments_get_locations(),
+*    '#description' => t('select a location'),
+*  );
+  **/
   $form['staff'] = array(
     '#type' => 'textfield',
-    '#title' => t('Name of staff member'),
+    '#title' => t('First Name of Staff Member'),
     '#default_value' => $edit['staff'],
     '#size' => 30,
    '#maxlength' => 15,
-    '#description' => t('Write staff members full name'),
+    '#description' => t('Write staff members name'),
   );
   $form['name'] = array(
     '#type' => 'textfield',
@@ -366,46 +370,48 @@ function patcomments_admin_form($form_state, $edit = '') {
     '#maxlength' => 50,
     '#description' => t('Write patrons full name'),
   );
-   $form['address'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Patrons address'),
-    '#default_value' => $edit['address'],
-    '#size' => 30,
-    '#maxlength' => 50,
-    '#description' => t('patrons address'),
-  );
-  $form['city'] = array(
-    '#type' => 'textfield',
-    '#title' => t('City'),
-    '#default_value' => $edit['city'],
-    '#size' => 30,
-    '#maxlength' => 20,
-    '#description' => t('city'),
-  );
-  $form['state'] = array(
-    '#type' => 'textfield',
-    '#title' => t('State'),
-    '#default_value' => $edit['state'],
-    '#size' => 10,
-    '#maxlength' => 2,
-    '#description' => t('state'),
-  );
-  $form['zip'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Zip'),
-    '#default_value' => $edit['zip'],
-    '#size' => 20,
-    '#maxlength' => 10,
-    '#description' => t('zip'),
-  );
-  $form['phone'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Phone'),
-    '#default_value' => $edit['phone'],
-    '#size' => 30,
-    '#maxlength' => 15,
-    '#description' => t('phone ex. (734)327-4200'),
-  );
+  /**
+  * $form['address'] = array(
+  *  '#type' => 'textfield',
+  *  '#title' => t('Patrons address'),
+  * '#default_value' => $edit['address'],
+  *  '#size' => 30,
+  *  '#maxlength' => 50,
+  *  '#description' => t('patrons address'),
+ * );
+ * $form['city'] = array(
+   * '#type' => 'textfield',
+   * '#title' => t('City'),
+   * '#default_value' => $edit['city'],
+   * '#size' => 30,
+   * '#maxlength' => 20,
+   * '#description' => t('city'),
+ * );
+*  $form['state'] = array(
+  *  '#type' => 'textfield',
+  *  '#title' => t('State'),
+  *  '#default_value' => $edit['state'],
+  *  '#size' => 10,
+  *  '#maxlength' => 2,
+  *  '#description' => t('state'),
+ * );
+ * $form['zip'] = array(
+  *  '#type' => 'textfield',
+  *  '#title' => t('Zip'),
+  *  '#default_value' => $edit['zip'],
+  *  '#size' => 20,
+  *  '#maxlength' => 10,
+  *  '#description' => t('zip'),
+ * );
+ * $form['phone'] = array(
+  *  '#type' => 'textfield',
+  *  '#title' => t('Phone'),
+  *  '#default_value' => $edit['phone'],
+  *  '#size' => 30,
+  *  '#maxlength' => 15,
+  *  '#description' => t('phone ex. (734)327-4200'),
+ * );
+  **/
   $form['comments'] = array(
     '#type' => 'textarea',
     '#title' => t('Comment/Message'),
@@ -423,7 +429,7 @@ function patcomments_admin_form($form_state, $edit = '') {
     '#default_value' => $refers[$edit['refer_to']]['refer_value'],
     '#size' => 30,
     '#maxlength' => 50,
-    '#description' => t('Address the email will be from'),
+    '#description' => t('Email address of the staff member who is responding'),
   );
   $form['email'] = array(
     '#type' => 'textfield',
@@ -447,7 +453,7 @@ function patcomments_admin_form($form_state, $edit = '') {
   );
   $form['date_resolved'] = array(
     '#type' => 'textfield',
-    '#title' => t('Date Resolved'),
+    '#title' => t('Date Answered'),
     '#default_value' => $edit['date_resolved'],
     '#size' => 30,
     '#maxlength' => 10,
@@ -458,7 +464,7 @@ function patcomments_admin_form($form_state, $edit = '') {
     '#title' => t('Status'),
     '#default_value' => $edit['status'],
     '#options' => _patcomments_get_statuses(),
-    '#description' => t('change status'),
+    '#description' => t('Change status to open, closed, etc.'),
   );
   foreach ($refers as $ref_id => $refer) {
     $ref_options[$ref_id] = $refer['refer_to'];
@@ -467,13 +473,15 @@ function patcomments_admin_form($form_state, $edit = '') {
     '#type' => 'hidden',
     '#value' => $edit['refer_to'],
   );
-  $form['refer_to'] = array(
-    '#type' => 'select',
-    '#title' => t('Refer Comment to'),
-    '#default_value' => $edit['refer_to'],
-    '#options' => $ref_options,
-    '#description' => t('Send Comment to... (Email will be sent)'),
-  );
+  /**
+ * $form['refer_to'] = array(
+ *   '#type' => 'select',
+ *   '#title' => t('Refer Comment to'),
+ *   '#default_value' => $edit['refer_to'],
+ *   '#options' => $ref_options,
+ *   '#description' => t('Send Comment to... (Email will be sent)'),
+ * );
+  **/
   $form['publish'] = array(
     '#type' => 'checkbox',
     '#title' => t('Publish Comment?'),
@@ -793,7 +801,7 @@ function patcomments_form($form_state, $pathCode = NULL) {
     '#default_value' => '',
     '#size' => 50,
     '#maxlength' => 64,
-    '#description' => t('Write your full name'),
+    '#description' => t('Your name'),
   );
 
   $form['email'] = array(
